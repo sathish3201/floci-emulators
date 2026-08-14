@@ -77,15 +77,13 @@ after a quiet period can take 30-60s to wake the service. Storage is
 single combined image (API + built frontend on one port) that gives you a
 browser UI over the deployed emulators instead of the AWS/Azure CLI.
 
-It's wired in `render.yaml` to point at `floci-aws` and `floci-az` via
-`FLOCI_ENDPOINT` / `FLOCI_AZURE_ENDPOINT`. Render assigns each service's
-actual hostname on first deploy — check the `floci-aws` and `floci-az`
-service URLs in the Render dashboard and update those two env vars on
-`floci-ui` (dashboard → floci-ui → Environment) if they differ from what's
-committed here, then trigger a redeploy.
+It's wired in `render.yaml` to point at `floci-aws`, `floci-az`, and
+`floci-gcp` via `FLOCI_ENDPOINT` / `FLOCI_AZURE_ENDPOINT` /
+`FLOCI_GCP_ENDPOINT`. Render assigns each service's actual hostname on
+first deploy — check the service URLs in the Render dashboard and update
+the matching env vars on `floci-ui` (dashboard → floci-ui → Environment)
+if they differ from what's committed here, then trigger a redeploy.
 
 Open the `floci-ui` service's URL in a browser once it's deployed. Same
-free-tier caveats apply: cold start after ~15 min idle, and GCP/OCI aren't
-wired into the console yet (only `FLOCI_ENDPOINT`/`FLOCI_AZURE_ENDPOINT`
-are set) — add `FLOCI_GCP_ENDPOINT`/`FLOCI_GCP_PROJECT` env vars pointing
-at `floci-gcp` if you want GCP visible in the console too.
+free-tier caveats apply: cold start after ~15 min idle. OCI isn't wired
+into the console yet — floci-ui doesn't currently support it as a target.

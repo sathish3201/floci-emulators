@@ -87,9 +87,9 @@ services:
   # ---------------------------------------------------------------
   # Floci UI. Single combined image (API + built frontend on one
   # port) — see floci-io/floci-ui docker/Dockerfile. Points at the
-  # AWS and Azure emulator services above. Update the *_ENDPOINT
-  # values below if Render assigns different hostnames than the
-  # ones already in floci-env.sh / floci-az-env.sh.
+  # AWS, Azure, and GCP emulator services above. Update the
+  # *_ENDPOINT values below if Render assigns different hostnames
+  # than the ones already in floci-env.sh / floci-az-env.sh.
   # ---------------------------------------------------------------
   - type: web
     name: floci-ui
@@ -106,6 +106,10 @@ services:
         value: https://floci-az-gsnc.onrender.com
       - key: FLOCI_AZURE_ACCOUNT_NAME
         value: devstoreaccount1
+      - key: FLOCI_GCP_ENDPOINT
+        value: https://floci-gcp-gsnc.onrender.com
+      - key: FLOCI_GCP_PROJECT
+        value: floci-local
       - key: AWS_REGION
         value: us-east-1
       - key: AWS_ACCESS_KEY_ID
