@@ -21,7 +21,7 @@ services:
       - key: PORT
         value: 4566
       - key: FLOCI_STORAGE_MODE
-        value: memory
+        value: ephemeral
       - key: FLOCI_HOSTNAME
         value: floci-aws.onrender.com
       - key: FLOCI_DEFAULT_REGION
