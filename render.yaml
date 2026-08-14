@@ -1,0 +1,85 @@
+services:
+  # ---------------------------------------------------------------
+  # AWS emulator. In-process services only on Render (no Docker
+  # socket) — Lambda/RDS/ECS/EKS/EC2/MSK/OpenSearch/Athena will
+  # fail if called. S3, DynamoDB, SQS, SNS, IAM, KMS, STS,
+  # CloudFormation, Secrets Manager, EventBridge, Step Functions,
+  # SSM, API Gateway, Cognito, etc. all work normally.
+  #
+  # Free tier: no persistent disk support, so storage is ephemeral —
+  # emulator state resets on every restart/redeploy. Fine for
+  # dev/testing; switch to plan: starter + a disk: block for
+  # persistence across restarts.
+  # ---------------------------------------------------------------
+  - type: web
+    name: floci-aws
+    env: image
+    image:
+      url: docker.io/floci/floci:latest
+    plan: free
+    envVars:
+      - key: PORT
+        value: 4566
+      - key: FLOCI_STORAGE_MODE
+        value: ephemeral
+      - key: FLOCI_HOSTNAME
+        value: floci-aws.onrender.com
+      - key: FLOCI_DEFAULT_REGION
+        value: us-east-1
+
+  # ---------------------------------------------------------------
+  # Azure emulator. Fully functional on Render — no Docker socket
+  # dependency for any of its services.
+  # ---------------------------------------------------------------
+  - type: web
+    name: floci-az
+    env: image
+    image:
+      url: docker.io/floci/floci-az:latest
+    plan: free
+    envVars:
+      - key: PORT
+        value: 4577
+      - key: FLOCI_STORAGE_MODE
+        value: ephemeral
+      - key: FLOCI_HOSTNAME
+        value: floci-az.onrender.com
+
+  # ---------------------------------------------------------------
+  # GCP emulator. Fully functional on Render — no Docker socket
+  # dependency for any of its services.
+  # ---------------------------------------------------------------
+  - type: web
+    name: floci-gcp
+    env: image
+    image:
+      url: docker.io/floci/floci-gcp:latest
+    plan: free
+    envVars:
+      - key: PORT
+        value: 4588
+      - key: FLOCI_STORAGE_MODE
+        value: ephemeral
+      - key: FLOCI_HOSTNAME
+        value: floci-gcp.onrender.com
+      - key: CLOUDSDK_CORE_PROJECT
+        value: floci-local
+
+  # ---------------------------------------------------------------
+  # OCI emulator. In-process services only on Render — Functions
+  # will fail without a Docker socket. Object Storage, Identity,
+  # Queue, Streaming, KMS, Vault all work normally.
+  # ---------------------------------------------------------------
+  - type: web
+    name: floci-oci
+    env: image
+    image:
+      url: docker.io/floci/floci-oci:latest
+    plan: free
+    envVars:
+      - key: PORT
+        value: 4599
+      - key: FLOCI_STORAGE_MODE
+        value: ephemeral
+      - key: FLOCI_HOSTNAME
+        value: floci-oci.onrender.com
