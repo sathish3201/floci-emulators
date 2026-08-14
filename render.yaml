@@ -83,3 +83,32 @@ services:
         value: ephemeral
       - key: FLOCI_HOSTNAME
         value: floci-oci.onrender.com
+
+  # ---------------------------------------------------------------
+  # Floci UI. Single combined image (API + built frontend on one
+  # port) — see floci-io/floci-ui docker/Dockerfile. Points at the
+  # AWS and Azure emulator services above. Update the *_ENDPOINT
+  # values below if Render assigns different hostnames than the
+  # ones already in floci-env.sh / floci-az-env.sh.
+  # ---------------------------------------------------------------
+  - type: web
+    name: floci-ui
+    env: image
+    image:
+      url: docker.io/floci/floci-ui:latest
+    plan: free
+    envVars:
+      - key: PORT
+        value: 4500
+      - key: FLOCI_ENDPOINT
+        value: https://floci-aws-gsnc.onrender.com
+      - key: FLOCI_AZURE_ENDPOINT
+        value: https://floci-az-gsnc.onrender.com
+      - key: FLOCI_AZURE_ACCOUNT_NAME
+        value: devstoreaccount1
+      - key: AWS_REGION
+        value: us-east-1
+      - key: AWS_ACCESS_KEY_ID
+        value: test
+      - key: AWS_SECRET_ACCESS_KEY
+        value: test
